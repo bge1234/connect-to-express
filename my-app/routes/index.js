@@ -5,18 +5,30 @@ var connectionString = 'postgres://localhost/vehicles';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+    res.render('index', { title: 'Express' });
 });
 
 router.get('/:tab/:id', function(req, res){
   runQuery('SELECT * FROM ' + req.params.tab + ' WHERE id= \'' + req.params.id + '\'', function(results) {
-     res.render('show', { data: results.rows });
+      res.render('show', { data: results.rows });
    });
 });
 
 router.get('/:tab', function(req, res){
   runQuery('SELECT * FROM ' + req.params.tab, function(results) {
-     res.render('show', { data: results.rows });
+      res.render('show', { data: results.rows });
+   });
+});
+
+router.get('/:tab/:id/edit', function(req, res){
+  runQuery('SELECT * FROM ' + req.params.tab, function(results) {
+      res.render('edit', { data: results.rows[req.params.id - 2] });
+   });
+});
+
+router.post("/:tab", function(req, res, next) {
+  runQuery('INSERT INTO ' + req.params.tab + 'values()', function(results) {
+      res.redirect("../cars")
    });
 });
 

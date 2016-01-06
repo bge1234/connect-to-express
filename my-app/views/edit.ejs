@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <p>You've reached the edit page for the <%= data["year"] %> <%= data["make"] %> <%= data["model"] %>!</p>
+    <form action="/cars" method="post">
+      <label>Make:
+        <input type="text" name="make" placeholder=<%= data["make"] %>>
+      </label>
+      <label>Model:
+        <input type="text" name="model" placeholder=<%= data["model"] %>>
+      </label>
+      <label>Year:
+        <input type="number" name="year" placeholder=<%= data["year"] %>>
+      </label>
+      <label>Model:
+        <input type="text" name="description" placeholder=<%= data["description"] %>>
+      </label>
+      <input type="submit" value="Update">
+    </form>
+  </body>
+</html>
