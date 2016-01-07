@@ -5,9 +5,8 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <p>You've reached the edit page for the <%= data["year"] %> <%= data["make"] %> <%= data["model"] %>!</p>
+    <p>You've reached the new car page!</p>
     <form action="/cars" method="post">
-      <input type="hidden" name="id" value=<%= data["id"] %>>
       <label>Make:
         <input type="text" name="make" value=<%= data["make"] %>>
       </label>
@@ -20,8 +19,8 @@
       <label>Description:
         <input type="text" name="description" value=<%= data["description"] %>>
       </label>
-      <input type="submit" value="Update">
+      <input type="submit" value="Add car">
     </form>
-    <a href="/cars/new">Add new car</a> | <a href="/cars">Show all cars</a>
+    <a href="/cars">Show all cars</a>
   </body>
 </html>

@@ -12,16 +12,20 @@
         <th>Model</th>
         <th>Year</th>
         <th>Description</th>
+        <th></th>
       </tr>
+      <% data.sort() %>
       <% for(var i = 0; i < data.length; i++) { %>
       <tr>
-        <td><a href="/cars/<%= data[i]['id'] %>/edit"><%= data[i]["id"] %></a></td>
+        <td><a href="/cars/<%= data[i]['id'] %>"><%= data[i]["id"] %></a></td>
         <td><%= data[i]["make"] %></td>
         <td><%= data[i]["model"] %></td>
         <td><%= data[i]["year"] %></td>
         <td><%= data[i]["description"] %></td>
+        <td><a href="/cars/<%= data[i]['id'] %>/update">Update</a></td>
       </tr>
       <% } %>
     </table>
+    <a href="/cars/new">Add new car</a> | <a href="/cars">Show all cars</a>
   </body>
 </html>

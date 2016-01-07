@@ -8,29 +8,54 @@ router.get('/', function(req, res, next) {
     res.render('index', { title: 'Express' });
 });
 
-router.get('/:tab/:id', function(req, res){
-  runQuery('SELECT * FROM ' + req.params.tab + ' WHERE id= \'' + req.params.id + '\'', function(results) {
+router.get('/cars/new', function(req, res){
+  runQuery('SELECT * from cars ORDER BY id ASC', function(results) {
+      res.render('new', { data: results.rows });
+   });
+});
+
+router.get('/cars/:id', function(req, res){
+  runQuery('SELECT * FROM cars WHERE id= \'' + req.params.id + '\'', function(results) {
       res.render('show', { data: results.rows });
    });
 });
 
-router.get('/:tab', function(req, res){
-  runQuery('SELECT * FROM ' + req.params.tab, function(results) {
+router.get('/cars', function(req, res){
+  runQuery('SELECT * from cars ORDER BY id ASC', function(results) {
       res.render('show', { data: results.rows });
    });
 });
 
-router.get('/:tab/:id/edit', function(req, res){
-  runQuery('SELECT * FROM ' + req.params.tab, function(results) {
+router.get('/cars/:id/update', function(req, res){
+  runQuery('SELECT * from cars ORDER BY id ASC', function(results) {
       res.render('edit', { data: results.rows[req.params.id - 2] });
    });
 });
 
-router.post("/:tab", function(req, res, next) {
-  runQuery('INSERT INTO ' + req.params.tab + 'values()', function(results) {
-      res.redirect("../cars")
-   });
+router.post("/cars", function(req, res, next) {
+  if(req.body.id === undefined) {
+    runQuery('INSERT into ' + req.params.tab + ' values(default, \'' + req.body.make + '\', \'' + req.body.model + '\', \'' + req.body.year + '\', \'' + req.body.description + '\')', function(results) {
+        res.redirect("../cars")
+     });
+  }
+  else {
+    runQuery('UPDATE cars SET make = \'' + req.body.make + '\', model = \'' + req.body.model + '\', year = \'' + req.body.year + '\', description = \'' + req.body.description + '\' WHERE id= \'' + req.body.id + '\'', function(results) {
+        res.redirect("../cars")
+     });
+   }
 });
+
+// router.get('/:tab/edit', function(req, res){
+//   runQuery('SELECT * FROM ' + req.params.tab, function(results) {
+//       res.render('edit', { data: results.rows[req.params.id - 2] });
+//    });
+// });
+//
+// router.post("/:tab", function(req, res, next) {
+//   runQuery('INSERT into ' + req.params.tab + ' values(default, \'' + req.body.make + '\', \'' + req.body.model + '\', \'' + req.body.year + '\', \'' + req.body.description + '\')', function(results) {
+//       res.redirect("../cars")
+//    });
+// });
 
 module.exports = router;
 
