@@ -27,14 +27,22 @@ router.get('/cars', function(req, res){
 });
 
 router.get('/cars/:id/update', function(req, res){
+  console.log(req.params.id);
   runQuery('SELECT * from cars ORDER BY id ASC', function(results) {
       res.render('edit', { data: results.rows[req.params.id - 2] });
    });
 });
 
+router.get('/cars/:id/delete', function(req, res){
+  runQuery('DELETE from cars WHERE id = \'' + req.params.id + '\'', function(results) {
+      res.redirect('/cars');
+   });
+});
+
 router.post("/cars", function(req, res, next) {
   if(req.body.id === undefined) {
-    runQuery('INSERT into ' + req.params.tab + ' values(default, \'' + req.body.make + '\', \'' + req.body.model + '\', \'' + req.body.year + '\', \'' + req.body.description + '\')', function(results) {
+    console.log('INSERT into cars values(default, \'' + req.body.make + '\', \'' + req.body.model + '\', \'' + req.body.year + '\', \'' + req.body.description + '\')');
+    runQuery('INSERT into cars values(default, \'' + req.body.make + '\', \'' + req.body.model + '\', \'' + req.body.year + '\', \'' + req.body.description + '\')', function(results) {
         res.redirect("../cars")
      });
   }
@@ -44,18 +52,6 @@ router.post("/cars", function(req, res, next) {
      });
    }
 });
-
-// router.get('/:tab/edit', function(req, res){
-//   runQuery('SELECT * FROM ' + req.params.tab, function(results) {
-//       res.render('edit', { data: results.rows[req.params.id - 2] });
-//    });
-// });
-//
-// router.post("/:tab", function(req, res, next) {
-//   runQuery('INSERT into ' + req.params.tab + ' values(default, \'' + req.body.make + '\', \'' + req.body.model + '\', \'' + req.body.year + '\', \'' + req.body.description + '\')', function(results) {
-//       res.redirect("../cars")
-//    });
-// });
 
 module.exports = router;
 
