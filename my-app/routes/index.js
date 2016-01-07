@@ -5,7 +5,7 @@ var connectionString = 'postgres://localhost/vehicles';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index', { title: 'Express' });
+    res.redirect('/cars');
 });
 
 router.get('/cars/new', function(req, res){
@@ -27,9 +27,15 @@ router.get('/cars', function(req, res){
 });
 
 router.get('/cars/:id/update', function(req, res){
-  console.log(req.params.id);
   runQuery('SELECT * from cars ORDER BY id ASC', function(results) {
-      res.render('edit', { data: results.rows[req.params.id - 2] });
+      var index = 0;
+      for (var i = 0; i < results.rows.length; i++) {
+        if (parseInt(req.params.id) === results.rows[i]["id"]) {
+          index = i;
+        }
+        console.log(index);
+      }
+      res.render('edit', { data: results.rows[index] });
    });
 });
 
